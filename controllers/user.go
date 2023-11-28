@@ -1,14 +1,22 @@
 package controllers
 
-import "github.com/gin-gonic/gin"
+import (
+	"gin-ranking/models"
+	"strconv"
+
+	"github.com/gin-gonic/gin"
+)
 
 type UserController struct{}
 
 func (u UserController) GetInfo(c *gin.Context) {
 	// 通过url获取参数
-	id := c.Param("id")
-	name := c.Param("name")
-	ReturnSuccess(c, 200, name, id, 1)
+	idStr := c.Param("id")
+
+	id, _ := strconv.Atoi(idStr)
+	user, _ := models.GetUserTest(id)
+
+	ReturnSuccess(c, 200, "success", user, 1)
 }
 
 type Param struct {
@@ -30,8 +38,8 @@ func (u UserController) PostList(c *gin.Context) {
 	err := c.BindJSON(&param)
 
 	if err == nil {
-		ReturnSuccess(c, 200, param.Name, param.Id, 1)
+		ReturnSuccess(c, 200, "success", param, 1)
 	} else {
-		ReturnError(c, 400, gin.H{"error": err})
+		ReturnError(c, 400, gin.H{"error": err}) // gin.H = map[string]interface{}
 	}
 }
