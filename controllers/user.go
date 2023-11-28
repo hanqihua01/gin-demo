@@ -14,8 +14,20 @@ func (u UserController) GetInfo(c *gin.Context) {
 	idStr := c.Param("id")
 
 	id, _ := strconv.Atoi(idStr)
-	user, _ := models.GetUserTest(id)
+	user, _ := models.GetUser(id)
 
+	ReturnSuccess(c, 200, "success", user, 1)
+}
+
+func (u UserController) AddUser(c *gin.Context) {
+	username := c.PostForm("username")
+
+	user, err := models.AddUser(username)
+
+	if err != nil {
+		ReturnError(c, 400, gin.H{"error": err})
+		return
+	}
 	ReturnSuccess(c, 200, "success", user, 1)
 }
 

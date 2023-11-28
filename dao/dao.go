@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	Db  = *gorm.Db
+	Db  *gorm.DB
 	err error
 )
 
