@@ -1,7 +1,7 @@
 package router
 
 import (
-	"net/http"
+	"gin-ranking/controllers"
 
 	"github.com/gin-gonic/gin"
 )
@@ -11,21 +11,13 @@ func Router() *gin.Engine {
 
 	user := r.Group("/user")
 	{
-		user.GET("/get", func(c *gin.Context) {
-			c.String(http.StatusOK, "Hello, User Get!")
-		})
+		user.GET("/info/:id/:name", controllers.UserController{}.GetInfo)
+		user.POST("/list", controllers.UserController{}.PostList)
+	}
 
-		user.POST("/post", func(c *gin.Context) {
-			c.String(http.StatusOK, "Hello, User Post!")
-		})
-
-		user.PUT("/put", func(c *gin.Context) {
-			c.String(http.StatusOK, "Hello, User Put!")
-		})
-
-		user.DELETE("/delete", func(c *gin.Context) {
-			c.String(http.StatusOK, "Hello, User Delete!")
-		})
+	order := r.Group("/order")
+	{
+		order.POST("/list", controllers.OrderController{}.PostList)
 	}
 
 	return r
